@@ -1,27 +1,34 @@
-name: Build
-
 on:
-  push:
-    branches:
-      - main
+  # schedule:
+    # - cron: '0 * * * 1'
+  workflow_dispatch:
 
-
+name: SonarQube Workflow
 jobs:
   build:
-    name: Build and analyze
+    name: Build
     runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      # - uses: sonarsource/sonarqube-quality-gate-action@master
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build/classes
+
+  sonarQube:
+    needs: build
+    name: SonarQube
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Donwload build artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build
+        path: build/classes
+    - name: SonarQube Scan
+      uses: kitabisa/sonarqube-action@master
+      with:
+        host: ${{ secrets.SONAR_HOST }}
+        login: ${{ secrets.SONAR_TOKEN }}
