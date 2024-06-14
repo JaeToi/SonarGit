@@ -26,7 +26,7 @@ jobs:
           -Dsonar.projectKey=Sonar_Github \
           -Dsonar.sources=. \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
       
 
           
