@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('build'){
             steps{
-                build : 'GitHub_Project'
+                build 'GitHub_Project'
             }
         }
         stage ('Checkout'){
