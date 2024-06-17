@@ -2,11 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage ('build'){
-            steps {
-                build job: 'GitHub_Project', waitForStart: true
-            }
-        }
+
         stage ('Checkout'){
             steps {
                 git branch: 'main', credentialsId:"GitHub_Token", url:"{https://github.com/JaeToi/SonarGit.git}"
