@@ -25,9 +25,7 @@ pipeline {
           stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube_Server') {
-                    dir('backend') {
-                           sh './gradlew sonarqube'
-                       }
+                    sh "mvn sonar:sonar -Dsonar.projectKey=Sonar_Github -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_06c707602d27470f96357ec59f62a8e11c0db126"
                 }
             }
           }
