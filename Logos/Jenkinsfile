@@ -1,13 +1,12 @@
 pipeline {
     agent any
 
-    Stages {
-        steps{
-            ecgo 'Hello World'
+    stages {
+        stage("Hello"){
+            steps{
+                ecgo 'Hello World'
+            }
         }
     }
-
-        
-   		// stage...
-   	}
+}
 
