@@ -23,7 +23,7 @@ pipeline {
             steps {
            
                 withSonarQubeEnv('SonarQube-Server') {
-                  sh "C:\sonarqube-10.5.1.90531\sonar-scanner-cli-5.0.1.3006-windows\sonar-scanner-5.0.1.3006-windows\bin"
+                  sh "C:\sonarqube-10.5.1.90531\sonar-scanner-cli-5.0.1.3006-windows\sonar-scanner-5.0.1.3006-windows\bin\sonar-scanner"
                 }
             }
           }
