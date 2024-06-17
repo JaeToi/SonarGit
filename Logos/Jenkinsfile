@@ -1,33 +1,40 @@
 pipeline {
     agent any
-
+    tools {
+        nodejs 'node18'
+    }
+    
     stages {
-        stage('build'){
-            steps{
-                build wait: false, job: 'GitHub_Project', waitForStart: true
+        stage('git pull') { // use 'dev' branch
+            steps {
+                git branch: 'main', credentialsId: 'GitHub_Token', url: 'https://github.com/JaeToi/SonarGit.git/'
             }
         }
         
-        stage ('checkout'){
+        stage('build') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHub_Token', url: 'https://github.com/JaeToi/SonarGit.git']])
-            }
-        }
-  
-
-          stage('SCM') {
-            steps {
-                   git branch: "main",
-                   url: "https://github.com/JaeToi/SonarGit.git"
-            }
-          }
-        
-          stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube_Server') {
-                    sh "mvn sonar:sonar -Dsonar.projectKey=Sonar_Github -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_06c707602d27470f96357ec59f62a8e11c0db126"
+                sh "pwd"
+                dir('test_sonar2') {
+                    sh "pwd"
+                    sh "npm install"
+                    sh "npm run build"
                 }
             }
-          }
-  }
+        }
+        
+        stage('deploy') {
+            steps {
+                sh "pwd"
+                dir('test_sonar2') {
+                    sh "pwd"
+                    sshagent (credentials: ['ssh-key']) {
+                        sh "scp -r dist/ backend@192.168.137.1:/home/backend/"
+                        sh "ssh backend@192.168.137.1 './dev_deploy.sh'"
+                    }
+                }
+            }
+        }
+        
+   		// stage...
+   	}
 }
