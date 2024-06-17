@@ -9,7 +9,7 @@ pipeline {
         }
         stage ('Checkout'){
             steps {
-                git bracnh: 'main', credentialsld:"GitHub_Token", url:"{https://github.com/JaeToi/SonarGit.git}"
+                git branch: 'main', credentialsId:"GitHub_Token", url:"{https://github.com/JaeToi/SonarGit.git}"
             }
         }
     }
