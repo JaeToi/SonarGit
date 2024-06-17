@@ -2,10 +2,14 @@ pipeline {
     agent any
 
     stages {
-
+        stage('build'){
+            steps{
+                build : 'GitHub_Project'
+            }
+        }
         stage ('Checkout'){
             steps {
-                git branch: 'main', credentialsId:"GitHub_Token", url:"{https://github.com/JaeToi/SonarGit.git}"
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHub_Token', url: 'https://github.com/JaeToi/SonarGit.git']])
             }
         }
     }
