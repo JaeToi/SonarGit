@@ -16,13 +16,14 @@ pipeline {
 
           stage('SCM') {
             steps {
-                checkout scm
+                   git branch: "main",
+                   url: "https://github.com/foo/bar.git"
             }
           }
           stage('SonarQube Analysis') {
             steps {
            
-                withSonarQubeEnv('SonarQube-Server') {
+                withSonarQubeEnv('SonarQube_Server') {
                   sh "C:\sonarqube-10.5.1.90531\sonar-scanner-cli-5.0.1.3006-windows\sonar-scanner-5.0.1.3006-windows\bin\sonar-scanner"
                 }
             }
