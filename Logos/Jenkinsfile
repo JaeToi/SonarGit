@@ -2,29 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage ('build'){
             steps {
-                sh '''
-                echo "Start Build"
-                g++ -o main main.cpp calculator.cpp -lgtest -lpthread
-                '''
+                build job: 'GitHub_Project', waitForStart: true
             }
         }
-        stage('Test') {
+        stage ('Checkout'){
             steps {
-                sh '''
-                echo "Start Test"
-                ./main
-                '''
-            }
-        }
-        stage('Archive') {
-            steps {
-                sh '''
-                echo "Start Archiving"
-                mv ./main ./artifact/
-                '''
-                archiveArtifacts artifacts: 'artifact/*', fingerprint: true 
+                git bracnh: 'main', credentialsld:"GitHub_Token", url:"{https://github.com/JaeToi/SonarGit.git}"
             }
         }
     }
