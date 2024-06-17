@@ -3,7 +3,7 @@ pipeline {
 
     Stages {
         steps{
-            ecgi 'Hello World
+            ecgo 'Hello World'
         }
     }
 
