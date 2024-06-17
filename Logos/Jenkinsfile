@@ -1,25 +1,11 @@
 pipeline {
     agent any
 
-    
-    stages {
-        stage('git pull') { // use 'dev' branch
-            steps {
-                git branch: 'main', credentialsId: 'GitHub_Token', url: 'https://github.com/JaeToi/SonarGit.git/'
-            }
+    Stages {
+        steps{
+            ecgi 'Hello World
         }
-        
-        stage('build') {
-            steps {
-                sh "pwd"
-                dir('test_sonar2') {
-                    sh "pwd"
-                    sh "npm install"
-                    sh "npm run build"
-                }
-            }
-        }
-        
+    }
 
         
    		// stage...
