@@ -20,18 +20,7 @@ pipeline {
             }
         }
         
-        stage('deploy') {
-            steps {
-                sh "pwd"
-                dir('test_sonar2') {
-                    sh "pwd"
-                    sshagent (credentials: ['ssh-key']) {
-                        sh "scp -r dist/ backend@192.168.137.1:/home/backend/"
-                        sh "ssh backend@192.168.137.1 './dev_deploy.sh'"
-                    }
-                }
-            }
-        }
+
         
    		// stage...
    	}
